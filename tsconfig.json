@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types"], // 手动指定编译器选项的 typeRoots, https://blog.csdn.net/bidang3275/article/details/120862521
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react"
+  },
+  "include": ["./src"]
+}
