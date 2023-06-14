@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
@@ -40,6 +40,11 @@ const App: React.FC = () => {
   console.log(`NODE_ENV=${process.env.NODE_ENV}`);
   console.log(`BASE_ENV=${process.env.BASE_ENV}`);
 
+  const [count, setCounts] = useState("");
+  const onChange = (e: any) => {
+    setCounts(e.target.value);
+  };
+
   return (
     <Layout>
       <Header style={{ display: "flex", alignItems: "center" }}>
@@ -65,6 +70,13 @@ const App: React.FC = () => {
             <img src={defaultSoltCover} alt="默认占位封面 28kb" />
             <hr />
             <User />
+            <hr />
+            <p>受控组件</p>
+            <input type="text" value={count} onChange={onChange} />
+            <br />
+            <p>非受控组件</p>
+            <input type="text" />
+            <input type="text" />
           </Content>
         </Layout>
       </Content>

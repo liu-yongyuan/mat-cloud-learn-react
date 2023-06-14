@@ -1,7 +1,7 @@
-const isDev = process.env.NODE_ENV === 'development'; // 是否为开发模式
+const isDev = process.env.NODE_ENV === "development"; // 是否为开发模式
 
 module.exports = {
-  plugins: [isDev && require.resolve("react-refresh/babel")],
+  plugins: [isDev && require.resolve("react-refresh/babel")].filter(Boolean),
   presets: [
     [
       "@babel/preset-env",
