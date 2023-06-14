@@ -32,19 +32,7 @@ module.exports = {
       // css 文件处理,通过插件解析 css 样式和注入到页面
       {
         test: /.(css|less)$/,
-        use: [
-          "style-loader",
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: ["autoprefixer"],
-              },
-            },
-          },
-          "less-loader",
-        ],
+        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
       },
     ],
   },
