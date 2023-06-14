@@ -1,6 +1,10 @@
 const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+
+console.log(`NODE_ENV=${process.env.NODE_ENV}`);
+console.log(`BASE_ENV=${process.env.BASE_ENV}`);
 
 module.exports = {
   entry: path.join(__dirname, "../src/index.tsx"), //入口文件
@@ -25,6 +29,11 @@ module.exports = {
           },
         },
       },
+      // css 文件处理,通过插件解析 css 样式和注入到页面
+      {
+        test: /.(css|less)$/,
+        use: ["style-loader", "css-loader", "less-loader"],
+      },
     ],
   },
 
@@ -37,9 +46,15 @@ module.exports = {
   },
 
   plugins: [
+    /* html 模板插件 */
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "../public/index.html"), // 模板用定义 root 节点的模板
       inject: true, // 自动注入静态资源
+    }),
+
+    /* process.env.BASE_ENV注入到业务代码里面，就可以通过该环境变量设置对应环境的接口地址和数据 */
+    new webpack.DefinePlugin({
+      "process.env.BASE_ENV": JSON.stringify(process.env.BASE_ENV),
     }),
   ],
 };
