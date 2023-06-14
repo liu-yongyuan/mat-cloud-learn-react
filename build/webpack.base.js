@@ -2,6 +2,7 @@ const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
+const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 console.log(`NODE_ENV=${process.env.NODE_ENV}`);
 console.log(`BASE_ENV=${process.env.BASE_ENV}`);
@@ -105,5 +106,10 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.BASE_ENV": JSON.stringify(process.env.BASE_ENV),
     }),
+
+    /* 在不需要刷新浏览器的前提下模块热更新,并且能够保留react组件的状态
+      1,css 和 less 
+    */
+    new ReactRefreshPlugin(), // 添加热更新文件
   ],
 };
