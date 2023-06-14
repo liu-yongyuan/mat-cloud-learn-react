@@ -62,6 +62,27 @@ module.exports = {
           filename: "static/images/[name][ext]", // 文件输出目录和命名
         },
       },
+      // 处理字体和媒体文件. 处理方式和图片一样
+      {
+        test: /.(woff2?|ttf|eot)$/,
+        type: "asset",
+        parser: {
+          dataUrlCondition: 10 * 1024,
+        },
+        generator: {
+          filename: "static/font/[name][ext]", // 文件输出目录和命名
+        },
+      },
+      {
+        test: /.(map4|mp3|webm|wav|flac|acc|ogg)$/,
+        type: "asset",
+        parser: {
+          dataUrlCondition: 10 * 1024,
+        },
+        generator: {
+          filename: "static/media/[name][ext]", // 文件输出目录和命名
+        },
+      },
     ],
   },
 

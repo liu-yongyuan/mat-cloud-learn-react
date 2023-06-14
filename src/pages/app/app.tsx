@@ -2,8 +2,8 @@ import React from "react";
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import defaultAvatar from "../../assets/imgs/business/mat-default-avatar.png";
-import defaultSoltCover from "../../assets/imgs/business/mat-default-solt-cover.jpg";
+import defaultAvatar from "../../assets/images/business/mat-default-avatar.png";
+import defaultSoltCover from "../../assets/images/business/mat-default-solt-cover.jpg";
 import "./app.less";
 
 const { Header, Content, Footer, Sider } = Layout;
