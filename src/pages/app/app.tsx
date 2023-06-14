@@ -5,6 +5,7 @@ import { Breadcrumb, Layout, Menu, theme } from "antd";
 import defaultAvatar from "../../assets/images/business/mat-default-avatar.png";
 import defaultSoltCover from "../../assets/images/business/mat-default-solt-cover.jpg";
 import "./app.less";
+import User from "../user/user";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -62,6 +63,8 @@ const App: React.FC = () => {
             <hr />
             <img src={defaultAvatar} alt="默认头像 10kb 内" />
             <img src={defaultSoltCover} alt="默认占位封面 28kb" />
+            <hr />
+            <User />
           </Content>
         </Layout>
       </Content>

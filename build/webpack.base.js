@@ -23,27 +23,7 @@ module.exports = {
       // babel tsx 和 ts 文件转换
       {
         test: /.(ts|tsx)$/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  // 设置兼容目标浏览器版本,这里可以不写,babel-loader会自动寻找上面配置好的文件.browserslistrc
-                  // "targets": {
-                  //  "chrome": 35,
-                  //  "ie": 9
-                  // },
-                  useBuiltIns: "usage", // 根据配置的浏览器兼容,以及代码中使用到的 api 进行引入 polyfill 按需添加
-                  corejs: 3, // 配置使用 core-js 版本
-                },
-              ],
-              "@babel/preset-react",
-              "@babel/preset-typescript",
-            ],
-          },
-        },
+        use: ['babel-loader'],
       },
       // css 文件处理,通过插件解析 css 样式和注入到页面
       {
