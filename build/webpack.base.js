@@ -49,6 +49,19 @@ module.exports = {
         test: /.(css|less)$/,
         use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
       },
+      // 使用 webpack5 自带的 asset-module 处理图片文件
+      {
+        test: /.(png|jpg|jpeg|gif|svg)$/, // 匹配图片文件
+        type: "asset", // type 选择 asset
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024, // 小于 10kb 转 base64
+          },
+        },
+        generator: {
+          filename: "static/images/[name][ext]", // 文件输出目录和命名
+        },
+      },
     ],
   },
 

@@ -2,6 +2,8 @@ import React from "react";
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
+import defaultAvatar from "../../assets/imgs/business/mat-default-avatar.png";
+import defaultSoltCover from "../../assets/imgs/business/mat-default-solt-cover.jpg";
 import "./app.less";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -53,9 +55,13 @@ const App: React.FC = () => {
           <Sider style={{ background: colorBgContainer }} width={200}>
             <Menu mode="inline" defaultSelectedKeys={["1"]} defaultOpenKeys={["sub1"]} style={{ height: "100%" }} items={items2} />
           </Sider>
-          <Content style={{ padding: "0 24px", minHeight: 280 }}>Content</Content>
-          <Content>
+          <Content style={{ padding: "0 24px", minHeight: 280 }}>
+            Content
+            <hr />
             <h2>The Content</h2>
+            <hr />
+            <img src={defaultAvatar} alt="默认头像 10kb 内" />
+            <img src={defaultSoltCover} alt="默认占位封面 28kb" />
           </Content>
         </Layout>
       </Content>
