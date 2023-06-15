@@ -77,8 +77,6 @@ const App: React.FC = () => {
             <p>非受控组件</p>
             <input type="text" />
             <input type="text" />
-            <p>非受控组件2</p>
-            <input type="text" />
           </Content>
         </Layout>
       </Content>

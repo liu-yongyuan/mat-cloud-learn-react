@@ -24,6 +24,7 @@ module.exports = {
       {
         test: /.(ts|tsx)$/,
         use: ["babel-loader"],
+        include: [path.resolve(__dirname, "../src")], // 只对项目 src 文件的 ts,tsx 进行 loader 解析
       },
       // css 文件处理,通过插件解析 css 样式和注入到页面
       {
