@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import defaultAvatar from "../../assets/images/business/mat-default-avatar.png";
-import defaultSoltCover from "../../assets/images/business/mat-default-solt-cover.jpg";
+import defaultAvatar from "@/assets/images/business/mat-default-avatar.png";
+import defaultSoltCover from "@/assets/images/business/mat-default-solt-cover.jpg";
 import "./app.less";
 import User from "../user/user";
 
@@ -76,6 +76,8 @@ const App: React.FC = () => {
             <br />
             <p>非受控组件</p>
             <input type="text" />
+            <input type="text" />
+            <p>非受控组件2</p>
             <input type="text" />
           </Content>
         </Layout>

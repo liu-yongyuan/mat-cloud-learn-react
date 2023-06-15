@@ -23,7 +23,7 @@ module.exports = {
       // babel tsx 和 ts 文件转换
       {
         test: /.(ts|tsx)$/,
-        use: ['babel-loader'],
+        use: ["babel-loader"],
       },
       // css 文件处理,通过插件解析 css 样式和注入到页面
       {
@@ -67,12 +67,17 @@ module.exports = {
     ],
   },
 
-  /* 
-  extebsions是webpack的resolve解析配置下的选项，在==引入模块时不带入文件后缀==的时候，会在该配置数组中依次添加后缀查找文件。
-  因为ts不支持引入以.ts、.tsx为后缀的文件，所以要在extensions中要配置，在很多第三方库中里面很多引入js文件且没有带后缀，所以也要配置下js。
- */
   resolve: {
+    /* 
+      extebsions是webpack的resolve解析配置下的选项，在==引入模块时不带入文件后缀==的时候，会在该配置数组中依次添加后缀查找文件。
+      因为ts不支持引入以.ts、.tsx为后缀的文件，所以要在extensions中要配置，在很多第三方库中里面很多引入js文件且没有带后缀，所以也要配置下js。
+    */
     extensions: [".js", ".tsx", ".ts"],
+
+    // alias 别名
+    alias: {
+      "@": path.resolve(__dirname, "../src"),
+    },
   },
 
   plugins: [
