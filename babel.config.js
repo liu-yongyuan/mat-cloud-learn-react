@@ -1,9 +1,13 @@
 const isDev = process.env.NODE_ENV === "development"; // 是否为开发模式
 
-module.exports = {
+module.exports = function (api) {
+  api.cache(false);
+
+  // console.log("[mat-cloud-learn][react]--- babel.config.js %o", api);
+
   // plugins: [isDev && require.resolve("react-refresh/babel")].filter(Boolean),
-  plugins: [require.resolve("react-refresh/babel")],
-  presets: [
+  const plugins = [require.resolve("react-refresh/babel")];
+  const presets = [
     [
       "@babel/preset-env",
       {
@@ -18,5 +22,10 @@ module.exports = {
     ],
     "@babel/preset-react",
     "@babel/preset-typescript",
-  ],
+  ];
+
+  return {
+    plugins,
+    presets,
+  };
 };

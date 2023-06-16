@@ -22,7 +22,7 @@ module.exports = {
     rules: [
       // babel tsx 和 ts 文件转换
       {
-        test: /.(ts|tsx)$/,
+        test: /.(js|jsx|ts|tsx)$/,
         use: ["babel-loader"],
         include: [path.resolve(__dirname, "../src")], // 只对项目 src 文件的 ts,tsx 进行 loader 解析
       },
