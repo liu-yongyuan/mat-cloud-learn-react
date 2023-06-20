@@ -98,4 +98,9 @@ module.exports = {
     */
     new ReactRefreshPlugin(), // 添加热更新文件
   ],
+
+  // webpack 5 缓存
+  cache: {
+    type: "filesystem", // 使用文件缓存
+  },
 };

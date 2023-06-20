@@ -6,7 +6,7 @@ module.exports = function (api) {
   // console.log("[mat-cloud-learn][react]--- babel.config.js %o", api);
 
   // plugins: [isDev && require.resolve("react-refresh/babel")].filter(Boolean),
-  const plugins = [require.resolve("react-refresh/babel")];
+  const plugins = [isDev && require.resolve("react-refresh/babel")].filter(Boolean);
   const presets = [
     [
       "@babel/preset-env",
