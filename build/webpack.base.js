@@ -28,7 +28,7 @@ module.exports = {
       },
       // css 文件处理,通过插件解析 css 样式和注入到页面
       {
-        test: /.(css)$/,
+        test: /.(css|less)$/,
         use: ["style-loader", "css-loader", "postcss-loader"],
       },
       // less 文件处理,拆分处理
@@ -84,6 +84,19 @@ module.exports = {
     alias: {
       "@": path.resolve(__dirname, "../src"),
     },
+
+    // 缩小模块的搜索范围
+    /* node 里面模块分三种:
+    1,node 核心模块
+    2,node_modules模块
+    3,自定义的文件模块
+
+    使用require或者import来引入模块时，如果有准确的路径，那么就会按照路径来查找。如果没有准确的路径时，
+    它就会优先查询node模块，若没有找到，就去当前目录下的node_modules中找，如果没有找到，就会从父级文件夹中查找node_modules,一直查到系统node全局模块。
+
+    这样的话就会有些问题，比如一级一级地查询比较消耗时间。我们可以告诉webpack搜索目录范围,来规避这个问题
+    */
+    modules: [path.resolve(__dirname, "../node_modules")],
   },
 
   plugins: [
@@ -107,20 +120,5 @@ module.exports = {
   // webpack 5 缓存
   cache: {
     type: "filesystem", // 使用文件缓存
-  },
-
-  // 缩小模块的搜索范围
-  /* node 里面模块分三种:
-  1,node 核心模块
-  2,node_modules模块
-  3,自定义的文件模块
-
-  使用require或者import来引入模块时，如果有准确的路径，那么就会按照路径来查找。如果没有准确的路径时，
-  它就会优先查询node模块，若没有找到，就去当前目录下的node_modules中找，如果没有找到，就会从父级文件夹中查找node_modules,一直查到系统node全局模块。
-
-  这样的话就会有些问题，比如一级一级地查询比较消耗时间。我们可以告诉webpack搜索目录范围,来规避这个问题
-   */
-  resolve: {
-    modules: [path.resolve(__dirname, "../node_modules")],
   },
 };
