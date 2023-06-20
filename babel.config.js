@@ -20,7 +20,7 @@ module.exports = function (api) {
         corejs: 3, // 配置使用 core-js 版本
       },
     ],
-    "@babel/preset-react",
+    "@babel/preset-react",// 此处可配置, 只处理 tsx 和 jsx
     "@babel/preset-typescript",
   ];
 

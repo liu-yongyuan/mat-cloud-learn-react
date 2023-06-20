@@ -28,8 +28,13 @@ module.exports = {
       },
       // css 文件处理,通过插件解析 css 样式和注入到页面
       {
-        test: /.(css|less)$/,
-        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
+        test: /.(css)$/,
+        use: ["style-loader", "css-loader", "postcss-loader"],
+      },
+      // less 文件处理,拆分处理
+      {
+        test: /.(less)$/,
+        use: ["less-loader"],
       },
       // 使用 webpack5 自带的 asset-module 处理图片文件
       {
