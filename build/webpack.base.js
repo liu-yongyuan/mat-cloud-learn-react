@@ -1,11 +1,11 @@
 const path = require("path");
-
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-
-console.log(`NODE_ENV=${process.env.NODE_ENV}`);
-console.log(`BASE_ENV=${process.env.BASE_ENV}`);
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const env = require("./env");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const { isDev } = env;
 
 module.exports = {
   entry: path.join(__dirname, "../src/index.tsx"), //入口文件
@@ -28,13 +28,13 @@ module.exports = {
       },
       // css 文件处理,通过插件解析 css 样式和注入到页面
       {
-        test: /.(css|less)$/,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        test: /.css$/,
+        use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
       // less 文件处理,拆分处理
       {
-        test: /.(less)$/,
-        use: ["less-loader"],
+        test: /.less$/,
+        use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"],
       },
       // 使用 webpack5 自带的 asset-module 处理图片文件
       {
@@ -120,5 +120,10 @@ module.exports = {
   // webpack 5 缓存
   cache: {
     type: "filesystem", // 使用文件缓存
+  },
+
+  // 优化
+  optimization: {
+    minimizer: [new CssMinimizerPlugin()],
   },
 };
