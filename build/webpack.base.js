@@ -155,10 +155,14 @@ css、媒体、图片资源:一般都是单独存在的,可以采用contenthash,
       }),
     ],
     /* 
-  一般情况下第三方包不会改动，我们可以对node_modules里的代码单独打包，
+  6,一般情况下第三方包不会改动，我们可以对node_modules里的代码单独打包，
   当第三方包代码没有改变时，它的chunkhash也不会改变，我们可以有效利用浏览器的缓存。
   
   webpack提供了代码分隔功能，需要在optimization中手动配置splitChunk规则
+
+  ===>
+  7、tree-shaking清理未引用的js
+  模式mode为production时就会默认开启tree-shaking功能以此来标记未引入代码然后移除掉.
    */
     // 分隔代码
     splitChunks: {
@@ -193,3 +197,14 @@ css、媒体、图片资源:一般都是单独存在的,可以采用contenthash,
     },
   },
 };
+
+
+/* 
+8、资源懒加载
+react,vue等单页应用打包默认会打包到一个js文件中,虽然使用代码分割可以把node_modules模块和公共模块分离,但页面初始加载还是会把整个项目的代码下载下来,
+其实只需要公共资源和当前页面的资源就可以了,其他页面资源可以等使用到的时候再加载,可以有效提升首屏加载速度。
+
+webpack默认支持资源懒加载,只需要引入资源使用import语法来引入资源,webpack打包的时候就会自动打包为单独的资源文件,等使用到的时候动态加载。
+
+const LazyDemo = lazy(() => import('@/components/LazyDemo')) // 使用import语法配合react的Lazy动态引入资源
+ */
