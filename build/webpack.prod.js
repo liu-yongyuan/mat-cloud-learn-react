@@ -22,7 +22,7 @@ module.exports = merge(baseConfig, {
 
     // 抽离 css 插件
     new MiniCssExtractPlugin({
-      filename: "static/css/[name].css",
+      filename: "static/css/[name].[contenthash:8].css",
     }),
   ],
 });

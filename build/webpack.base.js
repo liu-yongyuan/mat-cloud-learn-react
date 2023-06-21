@@ -14,7 +14,18 @@ module.exports = {
 
   //打包文件出口
   output: {
-    filename: "static/js/[name].js", //每个输出的js文件的名称
+    /* 
+    合理配置文件缓存,可以提升前端加载页面速度。webpack打包的hash分三种：
+hash：跟整个项目的构建有关，只要项目里面有文件修改，那么整个项目构建的hash都会改变
+chunkhash:文件本身修改或者依赖的文件修改，chunkhash值会改变
+contenthash:每个文件有一个单独的hash值，文件的改动只会影响自身的hash
+
+js:我们在生产环境里会把一些公共库和程序入口文件区分开,单独打包构建。采用chunkhash的方式生成哈希值,那么只要我们不改动公共库的代码,就可以保证其哈希值不会受影响,可以继续使用浏览器缓存,所以js适合使用chunkhash。
+css、媒体、图片资源:一般都是单独存在的,可以采用contenthash,只有文件本身变化后会生成新hash值。
+修改webpack.base.js,把js输出的文件名称格式加上chunkhash,把css和图片媒体资源输出格式加上
+
+     */
+    filename: "static/js/[name].[chunkhash:8].js", //每个输出的js文件的名称
     path: path.join(__dirname, "../dist"), //打包结果输出的路径
     clean: true, //webapck5内置的，webpack4中需要配置clean-webpack-plugin来删除之前的dist
     publicPath: "/", //打包后文件的公共前缀路径
@@ -48,7 +59,7 @@ module.exports = {
           },
         },
         generator: {
-          filename: "static/images/[name][ext]", // 文件输出目录和命名
+          filename: "static/images/[name].[contenthash:8][ext]", // 文件输出目录和命名
         },
       },
       // 处理字体和媒体文件. 处理方式和图片一样
@@ -59,7 +70,7 @@ module.exports = {
           dataUrlCondition: 10 * 1024,
         },
         generator: {
-          filename: "static/font/[name][ext]", // 文件输出目录和命名
+          filename: "static/font/[name].[contenthash:8][ext]", // 文件输出目录和命名
         },
       },
       {
@@ -69,7 +80,7 @@ module.exports = {
           dataUrlCondition: 10 * 1024,
         },
         generator: {
-          filename: "static/media/[name][ext]", // 文件输出目录和命名
+          filename: "static/media/[name].[contenthash:8][ext]", // 文件输出目录和命名
         },
       },
     ],
