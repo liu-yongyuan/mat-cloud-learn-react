@@ -107,6 +107,8 @@ const App: React.FC = () => {
             <div>1,2,3,4,5</div>
             <hr/>
             <div>6,7,8</div>
+            <hr/>
+            <div>8,9,10</div>
           </Content>
         </Layout>
       </Content>

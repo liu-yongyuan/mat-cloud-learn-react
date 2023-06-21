@@ -154,5 +154,42 @@ css、媒体、图片资源:一般都是单独存在的,可以采用contenthash,
         },
       }),
     ],
+    /* 
+  一般情况下第三方包不会改动，我们可以对node_modules里的代码单独打包，
+  当第三方包代码没有改变时，它的chunkhash也不会改变，我们可以有效利用浏览器的缓存。
+  
+  webpack提供了代码分隔功能，需要在optimization中手动配置splitChunk规则
+   */
+    // 分隔代码
+    splitChunks: {
+      cacheGroups: {
+        // 提取 node_modules 代码
+        vendors: {
+          // 只匹配 node_modules 里的模块
+          test: /node_modules/,
+          // 提取文件名为 vendors.js 后缀和 chunkhash 会自动添加
+          name: "vendors",
+          // 只要使用 1 次就提取出来
+          minChunks: 1,
+          // 只提取初始化就能获取到的模块,不管异步的
+          chunks: "initial",
+          // 提取代码体积大于 0 就提取出来
+          minSize: 0,
+          // 提取优先级为 1
+          priority: 1,
+        },
+        // 提取页面公共代码
+        commons: {
+          // 提取文件名为 commons
+          name: "commons",
+          // 只要使用 2 次就提取出来
+          minChunks: 2,
+          // 只提取初始化就能获取到的模块,不管异步的
+          chunks: "initial",
+          // 提取代码体积大于 0 就提取出来
+          minSize: 0,
+        },
+      },
+    },
   },
 };
