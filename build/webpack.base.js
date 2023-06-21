@@ -5,6 +5,8 @@ const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const env = require("./env");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+
 const { isDev } = env;
 
 module.exports = {
@@ -124,6 +126,22 @@ module.exports = {
 
   // 优化
   optimization: {
-    minimizer: [new CssMinimizerPlugin()],
+    minimizer: [
+      // css 压缩插件
+      new CssMinimizerPlugin(),
+
+      // webpack5 自带了该插件
+      // 但是 css 压缩插件会导致失效,需要重新安装该插件和对插件进行使用
+      // npm i terser-webpack-plugin -D
+      new TerserPlugin({
+        // 压缩 js
+        parallel: true, // 开启多线程压缩
+        terserOptions: {
+          compress: {
+            pure_funcs: ["console.log"], // 删除 console.log
+          },
+        },
+      }),
+    ],
   },
 };
