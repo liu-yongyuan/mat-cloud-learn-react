@@ -1,0 +1,24 @@
+src/**/*.js
+src/**/*.jsx
+src/version/token.tsx
+!src/*/__tests__/**/*.js
+!src/*/demo/*.md
+!.*.js
+~*
+typings
+es/**/*
+lib/**/*
+locale
+server
+.dumi/tmp
+.dumi/tmp-production
+!.dumi/
+node_modules
+.eslintcache
+_site
+dist
+coverage
+**/*.d.ts
+# Scripts
+scripts/previewEditor/**/*
+jest-stare

@@ -10,7 +10,9 @@
     "build:dev": "cross-env NODE_ENV=production BASE_ENV=dev webpack -c build/webpack.prod.js",
     "build:test": "cross-env NODE_ENV=production BASE_ENV=test webpack -c build/webpack.prod.js",
     "build:prod": "cross-env NODE_ENV=production BASE_ENV=prod webpack -c build/webpack.prod.js",
-    "build:analy": "cross-env NODE_ENV=production BASE_ENV=prod webpack -c build/webpack.analy.js"
+    "build:analy": "cross-env NODE_ENV=production BASE_ENV=prod webpack -c build/webpack.analy.js",
+    "lint": "eslint --fix src/**/*.{ts,tsx}",
+    "format": "prettier --write src/**/*.{css,ts,tsx,json}"
   },
   "repository": {
     "type": "git",
@@ -36,6 +38,7 @@
     "@types/istanbul-lib-report": "^3.0.0",
     "@types/react": "^18.2.11",
     "@types/react-dom": "^18.2.4",
+    "@typescript-eslint/parser": "^6.7.0",
     "autoprefixer": "^10.4.14",
     "babel-loader": "^9.1.2",
     "compression-webpack-plugin": "^10.0.0",
@@ -44,6 +47,13 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-compat": "^4.2.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jest": "^27.4.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
     "glob-all": "^3.3.1",
     "html-webpack-plugin": "^5.5.3",
     "less": "^4.1.3",
