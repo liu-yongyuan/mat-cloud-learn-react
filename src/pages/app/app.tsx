@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from 'react';
-import { Breadcrumb, Card, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Card, ConfigProvider, Layout, Menu, ThemeConfig, theme } from 'antd';
 import { Locale } from 'antd/es/locale';
 import zhCN from 'antd/locale/zh_CN';
 import 'dayjs/locale/zh-cn';
@@ -24,31 +24,35 @@ export const AppComponent: ComponentInterface = {
 const App: React.FC = () => {
   log(AppComponent.cname, 'render');
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   const [locale, setLocale] = useState<Locale>(zhCN);
+  const [light, setLight] = useState<boolean>(true);
   const memoMatConfigContext = useMemo(
     () => ({
       locale,
       setLocale,
+      light,
+      setLight,
     }),
-    [locale, setLocale],
+    [locale, setLocale, light, setLight],
   );
 
   return (
     <MatConfigContext.Provider value={memoMatConfigContext}>
-      <ConfigProvider locale={memoMatConfigContext.locale}>
+      <ConfigProvider
+        locale={memoMatConfigContext.locale}
+        theme={{
+          algorithm: light ? theme.defaultAlgorithm : theme.darkAlgorithm,
+        }}
+      >
         <Layout>
-          <AppHeader theme="dark" mode="horizontal" />
+          <AppHeader mode="horizontal" />
           <Content style={{ padding: '0 50px' }}>
             <Breadcrumb
               style={{ margin: '16px 0' }}
               items={[{ title: '账号管理' }, { title: '用户信息' }]}
             ></Breadcrumb>
-            <Layout style={{ padding: '24px 0', background: colorBgContainer }}>
-              <Sider style={{ background: colorBgContainer }} width={200}></Sider>
+            <Layout style={{ padding: '24px 0' }}>
+              <Sider width={200}></Sider>
               <Content style={{ padding: '0 24px', minHeight: 280 }}>
                 <Home />
               </Content>

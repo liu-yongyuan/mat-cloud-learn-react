@@ -9,7 +9,6 @@ import enUS from 'antd/locale/en_US';
 import MatConfigContext, { MatConfig } from '../context';
 
 export interface AppHeaderProps {
-  theme: 'light' | 'dark';
   mode: 'horizontal' | 'vertical' | 'inline';
 }
 
@@ -83,9 +82,9 @@ const styleAvatar: React.CSSProperties = {
 };
 
 const AppHeader: React.FC<AppHeaderProps> = (props) => {
-  const { mode, theme } = props;
+  const { mode } = props;
 
-  const { setLocale } = useContext<MatConfig>(MatConfigContext);
+  const { setLocale, setLight } = useContext<MatConfig>(MatConfigContext);
 
   const [current, setCurrent] = useState('mail');
   const onClick: MenuProps['onClick'] = (e) => {
@@ -97,6 +96,12 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
       case enUS.locale:
         setLocale(enUS);
         break;
+      case 'system-theme-light':
+        setLight(true);
+        break;
+      case 'system-theme-dark':
+        setLight(false);
+        break;
     }
   };
 
@@ -106,7 +111,7 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
         <Avatar style={styleAvatar} size="large" shape="square">
           Mat
         </Avatar>
-        <Menu onClick={onClick} selectedKeys={[current]} theme={theme} mode={mode} items={items} />
+        <Menu onClick={onClick} selectedKeys={[current]} mode={mode} items={items} />
       </Flex>
     </Header>
   );
