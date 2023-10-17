@@ -1,13 +1,15 @@
 import React, { useContext, useMemo, useState } from 'react';
-
 import { Breadcrumb, Card, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { Locale } from 'antd/es/locale';
+import zhCN from 'antd/locale/zh_CN';
+import 'dayjs/locale/zh-cn';
+
 import './app.less';
 import AppHeader from './header/app-header';
 import ComponentInterface from '@/utils/component-interface';
 import { log } from '@/utils/log';
 import MatConfigContext, { MatConfig } from './context';
-import { Locale } from 'antd/es/locale';
-import zhCN from 'antd/locale/zh_CN';
+
 import Home from '../home/home';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -27,18 +29,17 @@ const App: React.FC = () => {
   } = theme.useToken();
 
   const [locale, setLocale] = useState<Locale>(zhCN);
-
-  const matConfigContext = useContext<MatConfig>(MatConfigContext);
   const memoMatConfigContext = useMemo(
     () => ({
-      ...matConfigContext,
+      locale,
+      setLocale,
     }),
     [locale, setLocale],
   );
 
   return (
     <MatConfigContext.Provider value={memoMatConfigContext}>
-      <ConfigProvider locale={locale}>
+      <ConfigProvider locale={memoMatConfigContext.locale}>
         <Layout>
           <AppHeader theme="dark" mode="horizontal" />
           <Content style={{ padding: '0 50px' }}>
