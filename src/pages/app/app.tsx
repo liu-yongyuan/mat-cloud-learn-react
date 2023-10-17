@@ -24,6 +24,10 @@ export const AppComponent: ComponentInterface = {
 const App: React.FC = () => {
   log(AppComponent.cname, 'render');
 
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   const [locale, setLocale] = useState<Locale>(zhCN);
   const [light, setLight] = useState<boolean>(true);
   const memoMatConfigContext = useMemo(
@@ -51,8 +55,8 @@ const App: React.FC = () => {
               style={{ margin: '16px 0' }}
               items={[{ title: '账号管理' }, { title: '用户信息' }]}
             ></Breadcrumb>
-            <Layout style={{ padding: '24px 0' }}>
-              <Sider width={200}></Sider>
+            <Layout style={{ padding: '24px 0', background: colorBgContainer }}>
+              <Sider style={{ background: colorBgContainer }} width={200}></Sider>
               <Content style={{ padding: '0 24px', minHeight: 280 }}>
                 <Home />
               </Content>

@@ -1,6 +1,6 @@
 import ComponentInterface from '@/utils/component-interface';
 import { log } from '@/utils/log';
-import { Avatar, Menu, MenuProps, Flex } from 'antd';
+import { Avatar, Menu, MenuProps, Flex, theme } from 'antd';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 import { Header } from 'antd/es/layout/layout';
 import React, { useContext, useState } from 'react';
@@ -105,8 +105,12 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
     }
   };
 
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
-    <Header>
+    <Header style={{ background: colorBgContainer }}>
       <Flex gap="middle" align="center">
         <Avatar style={styleAvatar} size="large" shape="square">
           Mat
