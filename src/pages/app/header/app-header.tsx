@@ -3,7 +3,10 @@ import { log } from '@/utils/log';
 import { Avatar, Menu, MenuProps, Flex } from 'antd';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 import { Header } from 'antd/es/layout/layout';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import zhCN from 'antd/locale/zh_CN';
+import enUS from 'antd/locale/en_US';
+import MatConfigContext, { MatConfig } from '../context';
 
 export interface AppHeaderProps {
   theme: 'light' | 'dark';
@@ -48,6 +51,21 @@ const items: MenuProps['items'] = [
           },
         ],
       },
+      {
+        type: 'group',
+        label: '中/英切换',
+        key: 'system-locale',
+        children: [
+          {
+            label: '中文',
+            key: zhCN.locale,
+          },
+          {
+            label: '英文',
+            key: enUS.locale,
+          },
+        ],
+      },
     ],
   },
   {
@@ -67,9 +85,19 @@ const styleAvatar: React.CSSProperties = {
 const AppHeader: React.FC<AppHeaderProps> = (props) => {
   const { mode, theme } = props;
 
+  const { setLocale } = useContext<MatConfig>(MatConfigContext);
+
   const [current, setCurrent] = useState('mail');
   const onClick: MenuProps['onClick'] = (e) => {
-    log(appHeader.cname, 'menu-click', e);
+    log(appHeader.cname, 'menu-click', e.key);
+    switch (e.key) {
+      case zhCN.locale:
+        setLocale(zhCN);
+        break;
+      case enUS.locale:
+        setLocale(enUS);
+        break;
+    }
   };
 
   return (
