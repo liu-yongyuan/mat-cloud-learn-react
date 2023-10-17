@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import defaultAvatar from '@/assets/images/business/mat-default-avatar.png';
-import defaultSoltCover from '@/assets/images/business/mat-default-solt-cover.jpg';
 import './app.less';
-import User from '../user/user';
 import AppHeader from './header/app-header';
+import ComponentInterface from '@/utils/component-interface';
+import { log } from '@/utils/log';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,23 +27,25 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
   };
 });
 
+export const AppComponent: ComponentInterface = {
+  cname: {
+    name: 'app',
+    prefix: 'mat',
+  },
+};
+
 const App: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  console.log(`NODE_ENV=${process.env.NODE_ENV}`);
-  console.log(`BASE_ENV=${process.env.BASE_ENV}`);
+  log(AppComponent.cname, 'render');
 
   return (
     <Layout>
       <AppHeader theme="dark" mode="horizontal" />
       <Content style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
+        <Breadcrumb style={{ margin: '16px 0' }} items={[{ title: '账号管理' }, { title: '用户信息' }]}></Breadcrumb>
         <Layout style={{ padding: '24px 0', background: colorBgContainer }}>
           <Sider style={{ background: colorBgContainer }} width={200}>
             <Menu

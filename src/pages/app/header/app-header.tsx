@@ -1,6 +1,6 @@
 import ComponentInterface from '@/utils/component-interface';
 import { log } from '@/utils/log';
-import { Menu, MenuProps } from 'antd';
+import { Avatar, Menu, MenuProps, Flex } from 'antd';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 import { Header } from 'antd/es/layout/layout';
 import React, { useState } from 'react';
@@ -19,46 +19,32 @@ export const appHeader: ComponentInterface = {
 
 const items: MenuProps['items'] = [
   {
-    label: 'Navigation One',
+    label: '账号管理',
     key: 'mail',
     icon: React.createElement(MailOutlined),
   },
   {
-    label: 'Navigation Two',
+    label: '应用工具',
     key: 'app',
     icon: React.createElement(AppstoreOutlined),
-    disabled: true,
   },
   {
-    label: 'Navigation Three - Submenu',
-    key: 'SubMenu',
+    label: '系统设置',
+    key: 'system',
     icon: React.createElement(SettingOutlined),
     children: [
       {
         type: 'group',
-        label: 'Item 1',
+        label: '样式主题',
+        key: 'system-theme',
         children: [
           {
-            label: 'Option 1',
-            key: 'setting:1',
+            label: '高亮模式',
+            key: 'system-theme-light',
           },
           {
-            label: 'Option 2',
-            key: 'setting:2',
-          },
-        ],
-      },
-      {
-        type: 'group',
-        label: 'Item 2',
-        children: [
-          {
-            label: 'Option 3',
-            key: 'setting:3',
-          },
-          {
-            label: 'Option 4',
-            key: 'setting:4',
+            label: '黑暗模式',
+            key: 'system-theme-dark',
           },
         ],
       },
@@ -67,12 +53,17 @@ const items: MenuProps['items'] = [
   {
     label: (
       <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-        Navigation Antd - Link
+        ant design 官网
       </a>
     ),
-    key: 'alipay',
+    key: 'link-ant-design',
   },
 ];
+
+const styleAvatar: React.CSSProperties = {
+  backgroundColor: '#1677ff',
+};
+
 const AppHeader: React.FC<AppHeaderProps> = (props) => {
   const { mode, theme } = props;
 
@@ -83,7 +74,12 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
 
   return (
     <Header>
-      <Menu onClick={onClick} selectedKeys={[current]} theme={theme} mode={mode} items={items} />
+      <Flex gap="middle" align="center">
+        <Avatar style={styleAvatar} size="large" shape="square">
+          Mat
+        </Avatar>
+        <Menu onClick={onClick} selectedKeys={[current]} theme={theme} mode={mode} items={items} />
+      </Flex>
     </Header>
   );
 };
