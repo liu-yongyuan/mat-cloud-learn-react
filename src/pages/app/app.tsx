@@ -30,7 +30,7 @@ const App: React.FC = () => {
 
   const [locale, setLocale] = useState<Locale>(zhCN);
   const [light, setLight] = useState<boolean>(true);
-  const memoMatConfigContext = useMemo(
+  const memoMatConfigContext = useMemo<MatConfig>(
     () => ({
       locale,
       setLocale,
