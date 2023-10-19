@@ -7,6 +7,8 @@ import React, { useContext, useState } from 'react';
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
 import MatConfigContext, { MatConfig } from '../context';
+import { storeLocale, storeLight } from '@/utils/global-store';
+import { BoolFalseNumber, BoolTrueNumber } from '@/utils/global-const';
 
 export interface AppHeaderProps {
   mode: 'horizontal' | 'vertical' | 'inline';
@@ -81,29 +83,39 @@ const styleAvatar: React.CSSProperties = {
   backgroundColor: '#1677ff',
 };
 
-const AppHeader: React.FC<AppHeaderProps> = (props) => {
-  const { mode } = props;
+const useAppHeader = (props: AppHeaderProps, matConfigContext: MatConfig) => {
+  const { setLight, setLocale } = matConfigContext;
 
-  const { setLocale, setLight } = useContext<MatConfig>(MatConfigContext);
-
-  const [current, setCurrent] = useState('mail');
-  const onClick: MenuProps['onClick'] = (e) => {
+  const [menuCurrent, setMenuCurrent] = useState('mail');
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
     log(appHeader.cname, 'menu-click', e.key);
     switch (e.key) {
       case zhCN.locale:
-        setLocale(zhCN);
+        storeLocale(zhCN, setLocale);
         break;
       case enUS.locale:
-        setLocale(enUS);
+        storeLocale(enUS, setLocale);
         break;
       case 'system-theme-light':
-        setLight(true);
+        storeLight(BoolTrueNumber, setLight);
         break;
       case 'system-theme-dark':
-        setLight(false);
+        storeLight(BoolFalseNumber, setLight);
         break;
     }
   };
+
+  return {
+    menuCurrent,
+    handleMenuClick,
+  };
+};
+
+const AppHeader: React.FC<AppHeaderProps> = (props) => {
+  const { mode } = props;
+
+  const matConfigContext = useContext<MatConfig>(MatConfigContext);
+  const { menuCurrent, handleMenuClick } = useAppHeader(props, matConfigContext);
 
   const {
     token: { colorBgContainer },
@@ -115,7 +127,7 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
         <Avatar style={styleAvatar} size="large" shape="square">
           Mat
         </Avatar>
-        <Menu onClick={onClick} selectedKeys={[current]} mode={mode} items={items} />
+        <Menu onClick={handleMenuClick} selectedKeys={[menuCurrent]} mode={mode} items={items} />
       </Flex>
     </Header>
   );
