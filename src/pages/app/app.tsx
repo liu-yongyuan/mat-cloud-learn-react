@@ -12,7 +12,7 @@ import { log } from '@/utils/log';
 import MatConfigContext, { MatConfig } from './context';
 
 import Home from '../home/home';
-import { getSotreLocale, getStoreLight, storeLightDefault, storeLocaleDefault } from '@/utils/global-store';
+import { storeLightDefault, storeLocaleDefault } from '@/utils/global-store';
 
 const { Header, Content, Footer, Sider } = Layout;
 

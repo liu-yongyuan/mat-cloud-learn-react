@@ -1,6 +1,6 @@
 import { BoolTrueNumber } from '@/utils/global-const';
 import type { Locale } from 'antd/es/locale';
-import React, { useState } from 'react';
+import React from 'react';
 
 /**
  * 全局上下文配置
