@@ -2,8 +2,9 @@ import React, { useContext, useMemo, useState } from 'react';
 import { Breadcrumb, Card, ConfigProvider, Layout, Menu, ThemeConfig, theme } from 'antd';
 import { Locale } from 'antd/es/locale';
 import zhCN from 'antd/locale/zh_CN';
-import 'dayjs/locale/zh-cn';
+import enUS from 'antd/locale/en_US';
 
+import 'dayjs/locale/zh-cn';
 import './app.less';
 import AppHeader from './header/app-header';
 import ComponentInterface from '@/utils/component-interface';
@@ -11,6 +12,7 @@ import { log } from '@/utils/log';
 import MatConfigContext, { MatConfig } from './context';
 
 import Home from '../home/home';
+import { storeLightDefault, storeLocaleDefault } from '@/utils/global-store';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -21,15 +23,9 @@ export const AppComponent: ComponentInterface = {
   },
 };
 
-const App: React.FC = () => {
-  log(AppComponent.cname, 'render');
-
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
-  const [locale, setLocale] = useState<Locale>(zhCN);
-  const [light, setLight] = useState<boolean>(true);
+const useApp = () => {
+  const [locale, setLocale] = useState<Locale>(storeLocaleDefault());
+  const [light, setLight] = useState<number>(storeLightDefault());
   const memoMatConfigContext = useMemo<MatConfig>(
     () => ({
       locale,
@@ -39,13 +35,22 @@ const App: React.FC = () => {
     }),
     [locale, setLocale, light, setLight],
   );
+  return { memoMatConfigContext };
+};
 
+const App: React.FC = () => {
+  log(AppComponent.cname, 'render');
+
+  const { memoMatConfigContext } = useApp();
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
   return (
     <MatConfigContext.Provider value={memoMatConfigContext}>
       <ConfigProvider
         locale={memoMatConfigContext.locale}
         theme={{
-          algorithm: light ? theme.defaultAlgorithm : theme.darkAlgorithm,
+          algorithm: memoMatConfigContext.light ? theme.defaultAlgorithm : theme.darkAlgorithm,
         }}
       >
         <Layout>
