@@ -1,7 +1,7 @@
 import ComponentInterface from '@/utils/component-interface';
 import { log } from '@/utils/log';
 import { Avatar, Menu, MenuProps, Flex, theme } from 'antd';
-import { MailOutlined, AppstoreOutlined, SettingOutlined, CheckCircleTwoTone } from '@ant-design/icons';
+import { MailOutlined, AppstoreOutlined, SettingOutlined, CheckCircleTwoTone, HomeTwoTone } from '@ant-design/icons';
 import { Header } from 'antd/es/layout/layout';
 import React, { useContext, useState } from 'react';
 import zhCN from 'antd/locale/zh_CN';
@@ -9,6 +9,7 @@ import enUS from 'antd/locale/en_US';
 import MatConfigContext, { MatConfig } from '../context';
 import { storeLocale, storeLight } from '@/utils/global-store';
 import { BoolFalseNumber, BoolTrueNumber } from '@/utils/global-const';
+import { Link } from 'react-router-dom';
 
 export interface AppHeaderProps {
   mode: 'horizontal' | 'vertical' | 'inline';
@@ -28,28 +29,22 @@ const styleAvatar: React.CSSProperties = {
 const useAppHeader = (props: AppHeaderProps, matConfigContext: MatConfig) => {
   const { light, locale, setLight, setLocale } = matConfigContext;
 
-  const [menuCurrent, setMenuCurrent] = useState('mail');
-  const handleMenuClick: MenuProps['onClick'] = (e) => {
-    log(appHeader.cname, 'menu-click', e.key);
-    switch (e.key) {
-      case zhCN.locale:
-        storeLocale(zhCN, setLocale);
-        break;
-      case enUS.locale:
-        storeLocale(enUS, setLocale);
-        break;
-      case 'system-theme-light':
-        storeLight(BoolTrueNumber, setLight);
-        break;
-      case 'system-theme-dark':
-        storeLight(BoolFalseNumber, setLight);
-        break;
-    }
-  };
-
   const items: MenuProps['items'] = [
     {
-      label: '账号管理',
+      label: (
+        <Link title="首页" to={'home'}>
+          首页
+        </Link>
+      ),
+      key: 'home',
+      icon: React.createElement(HomeTwoTone),
+    },
+    {
+      label: (
+        <Link title="账号管理" to={'mail'}>
+          账号管理
+        </Link>
+      ),
       key: 'mail',
       icon: React.createElement(MailOutlined),
     },
@@ -108,6 +103,25 @@ const useAppHeader = (props: AppHeaderProps, matConfigContext: MatConfig) => {
       key: 'link-ant-design',
     },
   ];
+
+  const [menuCurrent, setMenuCurrent] = useState<string>(items!.at(0)!.key as string);
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    log(appHeader.cname, 'menu-click', e.key);
+    switch (e.key) {
+      case zhCN.locale:
+        storeLocale(zhCN, setLocale);
+        break;
+      case enUS.locale:
+        storeLocale(enUS, setLocale);
+        break;
+      case 'system-theme-light':
+        storeLight(BoolTrueNumber, setLight);
+        break;
+      case 'system-theme-dark':
+        storeLight(BoolFalseNumber, setLight);
+        break;
+    }
+  };
 
   return {
     items,
