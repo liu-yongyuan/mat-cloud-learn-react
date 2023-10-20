@@ -1,5 +1,5 @@
 import { Locale } from 'antd/es/locale';
-import { StoreLocale, SotreLight, BoolTrueNumber } from './global-const';
+import { prefixLocale, prefixLight, boolTrueNumber } from './global-const';
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
 import { log } from './log';
@@ -14,34 +14,34 @@ export const globalStoreCName: ComponentName = {
 
 export const storeLocale = (locale: Locale, setLocale: Function) => {
   log(globalStoreCName, locale.locale);
-  localStorage.setItem(StoreLocale, locale.locale);
+  localStorage.setItem(prefixLocale, locale.locale);
   setLocale(locale);
 };
 
 export const storeLocaleDefault = (): Locale => {
   const storeLocale = getSotreLocale();
   const defaultLocale = storeLocale ? (storeLocale === zhCN.locale ? zhCN : enUS) : zhCN;
-  localStorage.setItem(StoreLocale, defaultLocale.locale);
+  localStorage.setItem(prefixLocale, defaultLocale.locale);
   return defaultLocale;
 };
 
 export const getSotreLocale = () => {
-  return localStorage.getItem(StoreLocale);
+  return localStorage.getItem(prefixLocale);
 };
 
 export const storeLight = (light: number, setLight: Function) => {
   log(globalStoreCName, light);
-  localStorage.setItem(SotreLight, `${light}`);
+  localStorage.setItem(prefixLight, `${light}`);
   setLight(light);
 };
 
 export const storeLightDefault = (): number => {
   const storeLight = getStoreLight();
-  const defaultLight = storeLight ? Number(storeLight) : BoolTrueNumber;
-  localStorage.setItem(SotreLight, `${defaultLight}`);
+  const defaultLight = storeLight ? Number(storeLight) : boolTrueNumber;
+  localStorage.setItem(prefixLight, `${defaultLight}`);
   return defaultLight;
 };
 
 export const getStoreLight = () => {
-  return localStorage.getItem(SotreLight);
+  return localStorage.getItem(prefixLight);
 };
