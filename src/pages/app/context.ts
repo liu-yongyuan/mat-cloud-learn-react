@@ -1,4 +1,4 @@
-import { BoolTrueNumber } from '@/utils/global-const';
+import { boolTrueNumber } from '@/utils/global-const';
 import type { Locale } from 'antd/es/locale';
 import React from 'react';
 
@@ -18,7 +18,7 @@ export type MatConfig = {
 export const MatConfigContext = React.createContext<MatConfig>({
   locale: undefined as unknown as Locale,
   setLocale: (locale: Locale): void => {},
-  light: BoolTrueNumber,
+  light: boolTrueNumber,
   setLight: (light: number): void => {},
 });
 

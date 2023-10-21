@@ -1,14 +1,29 @@
 import ComponentInterface from '@/utils/component-interface';
 import { log } from '@/utils/log';
 import { Avatar, Menu, MenuProps, Flex, theme } from 'antd';
-import { MailOutlined, AppstoreOutlined, SettingOutlined, CheckCircleTwoTone } from '@ant-design/icons';
+import { MailOutlined, AppstoreOutlined, SettingOutlined, CheckCircleTwoTone, HomeTwoTone } from '@ant-design/icons';
 import { Header } from 'antd/es/layout/layout';
 import React, { useContext, useState } from 'react';
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
 import MatConfigContext, { MatConfig } from '../context';
 import { storeLocale, storeLight } from '@/utils/global-store';
-import { BoolFalseNumber, BoolTrueNumber } from '@/utils/global-const';
+import {
+  boolFalseNumber,
+  boolTrueNumber,
+  prefixRoute,
+  menuKeyAdmin,
+  menuKeyHome,
+  menuKeyUtil,
+  menuKeySystem,
+  menuKeySystemThem,
+  menuKeySystemThemLight,
+  menuKeySystemThemDark,
+  menuKeySystemLocaleZhCN,
+  menuKeySystemLocale,
+  menuKeySystemLocaleEnUS,
+} from '@/utils/global-const';
+import { Link } from 'react-router-dom';
 
 export interface AppHeaderProps {
   mode: 'horizontal' | 'vertical' | 'inline';
@@ -28,55 +43,49 @@ const styleAvatar: React.CSSProperties = {
 const useAppHeader = (props: AppHeaderProps, matConfigContext: MatConfig) => {
   const { light, locale, setLight, setLocale } = matConfigContext;
 
-  const [menuCurrent, setMenuCurrent] = useState('mail');
-  const handleMenuClick: MenuProps['onClick'] = (e) => {
-    log(appHeader.cname, 'menu-click', e.key);
-    switch (e.key) {
-      case zhCN.locale:
-        storeLocale(zhCN, setLocale);
-        break;
-      case enUS.locale:
-        storeLocale(enUS, setLocale);
-        break;
-      case 'system-theme-light':
-        storeLight(BoolTrueNumber, setLight);
-        break;
-      case 'system-theme-dark':
-        storeLight(BoolFalseNumber, setLight);
-        break;
-    }
-  };
-
   const items: MenuProps['items'] = [
     {
-      label: '账号管理',
-      key: 'mail',
+      label: (
+        <Link title="首页" to={'/'}>
+          首页
+        </Link>
+      ),
+      key: menuKeyHome,
+      icon: React.createElement(HomeTwoTone),
+    },
+    {
+      label: (
+        <Link title="账号管理" to={'mail'}>
+          账号管理
+        </Link>
+      ),
+      key: menuKeyAdmin,
       icon: React.createElement(MailOutlined),
     },
     {
       label: '应用工具',
-      key: 'app',
+      key: menuKeyUtil,
       icon: React.createElement(AppstoreOutlined),
     },
     {
       label: '系统设置',
-      key: 'system',
+      key: menuKeySystem,
       icon: React.createElement(SettingOutlined),
       children: [
         {
           type: 'group',
           label: '样式主题',
-          key: 'system-theme',
+          key: menuKeySystemThem,
           children: [
             {
               label: '高亮模式',
-              key: 'system-theme-light',
-              icon: light === BoolTrueNumber ? React.createElement(CheckCircleTwoTone) : null,
+              key: menuKeySystemThemLight,
+              icon: light === boolTrueNumber ? React.createElement(CheckCircleTwoTone) : null,
             },
             {
               label: '黑暗模式',
-              key: 'system-theme-dark',
-              icon: light === BoolFalseNumber ? React.createElement(CheckCircleTwoTone) : null,
+              key: menuKeySystemThemDark,
+              icon: light === boolFalseNumber ? React.createElement(CheckCircleTwoTone) : null,
             },
           ],
         },
@@ -87,12 +96,12 @@ const useAppHeader = (props: AppHeaderProps, matConfigContext: MatConfig) => {
           children: [
             {
               label: '中文',
-              key: zhCN.locale,
+              key: menuKeySystemLocaleZhCN,
               icon: locale === zhCN ? React.createElement(CheckCircleTwoTone) : null,
             },
             {
               label: '英文',
-              key: enUS.locale,
+              key: menuKeySystemLocaleEnUS,
               icon: locale === enUS ? React.createElement(CheckCircleTwoTone) : null,
             },
           ],
@@ -105,13 +114,48 @@ const useAppHeader = (props: AppHeaderProps, matConfigContext: MatConfig) => {
           ant design 官网
         </a>
       ),
-      key: 'link-ant-design',
+      key: 'outlink-ant-design',
     },
   ];
 
+  const [menuSelectKey, setMenuSelectKey] = useState<string>(items.at(0)?.key as string);
+  // 路由菜单路由的点击响应
+  const handleMenuClickByLink = (key: string) => {
+    if (!key.includes(prefixRoute)) {
+      return;
+    }
+    setMenuSelectKey(key);
+  };
+
+  // 响应菜单主题切换的点击响应
+  const handleMenuClickTheme = (key: string) => {
+    if (!key.includes(menuKeySystemThem)) {
+      return;
+    }
+    const themeNum = Object.is(menuKeySystemThemDark, key) ? boolFalseNumber : boolTrueNumber;
+    storeLight(themeNum, setLight);
+  };
+
+  // 响应菜单语言切换的点击响应
+  const handleMenuClickLocale = (key: string) => {
+    if (!key.includes(menuKeySystemLocale)) {
+      return;
+    }
+    const locale = Object.is(menuKeySystemLocaleZhCN, key) ? zhCN : enUS;
+    storeLocale(locale, setLocale);
+  };
+
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    const key = e.key;
+    log(appHeader.cname, 'menu-click', key);
+    handleMenuClickByLink(key);
+    handleMenuClickTheme(key);
+    handleMenuClickLocale(key);
+  };
+
   return {
     items,
-    menuCurrent,
+    menuSelectKey,
     handleMenuClick,
   };
 };
@@ -120,7 +164,7 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
   const { mode } = props;
 
   const matConfigContext = useContext<MatConfig>(MatConfigContext);
-  const { items, menuCurrent, handleMenuClick } = useAppHeader(props, matConfigContext);
+  const { items, menuSelectKey, handleMenuClick } = useAppHeader(props, matConfigContext);
 
   const {
     token: { colorBgContainer },
@@ -132,7 +176,7 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
         <Avatar style={styleAvatar} size="large" shape="square">
           Mat
         </Avatar>
-        <Menu onClick={handleMenuClick} selectedKeys={[menuCurrent]} mode={mode} items={items} />
+        <Menu onClick={handleMenuClick} selectedKeys={[menuSelectKey]} mode={mode} items={items} />
       </Flex>
     </Header>
   );

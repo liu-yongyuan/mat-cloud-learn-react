@@ -16,11 +16,3 @@ export interface ComponentName {
   // 无特殊需求不改
   prefix: 'mat' | string;
 }
-
-/**
- * 名组合
- * Context/Provider
- * Class 命名
- * Log 日志输出前缀
- */
-export const getPrefix = ({ name, prefix }: ComponentName) => `${prefix}-${name}`;

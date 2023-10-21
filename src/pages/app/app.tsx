@@ -1,8 +1,6 @@
-import React, { useContext, useMemo, useState } from 'react';
-import { Breadcrumb, Card, ConfigProvider, Layout, Menu, ThemeConfig, theme } from 'antd';
+import React, { useMemo, useState } from 'react';
+import { ConfigProvider, Layout, theme } from 'antd';
 import { Locale } from 'antd/es/locale';
-import zhCN from 'antd/locale/zh_CN';
-import enUS from 'antd/locale/en_US';
 
 import 'dayjs/locale/zh-cn';
 import './app.less';
@@ -11,10 +9,12 @@ import ComponentInterface from '@/utils/component-interface';
 import { log } from '@/utils/log';
 import MatConfigContext, { MatConfig } from './context';
 
-import Home from '../home/home';
 import { storeLightDefault, storeLocaleDefault } from '@/utils/global-store';
+import AppBreadCrumb from './breadcrumb/app-breadcrumb';
 
-const { Header, Content, Footer, Sider } = Layout;
+import { Outlet } from 'react-router-dom';
+
+const { Content, Footer } = Layout;
 
 export const AppComponent: ComponentInterface = {
   cname: {
@@ -45,6 +45,7 @@ const App: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
   return (
     <MatConfigContext.Provider value={memoMatConfigContext}>
       <ConfigProvider
@@ -56,18 +57,14 @@ const App: React.FC = () => {
         <Layout>
           <AppHeader mode="horizontal" />
           <Content style={{ padding: '0 50px' }}>
-            <Breadcrumb
-              style={{ margin: '16px 0' }}
-              items={[{ title: '账号管理' }, { title: '用户信息' }]}
-            ></Breadcrumb>
+            <AppBreadCrumb />
             <Layout style={{ padding: '24px 0', background: colorBgContainer }}>
-              <Sider style={{ background: colorBgContainer }} width={200}></Sider>
               <Content style={{ padding: '0 24px', minHeight: 280 }}>
-                <Home />
+                <Outlet />
               </Content>
             </Layout>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+          <Footer style={{ textAlign: 'center' }}>Mat Antd Example ©2023 Created by liu-yongyuan</Footer>
         </Layout>
       </ConfigProvider>
     </MatConfigContext.Provider>
