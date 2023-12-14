@@ -1,4 +1,3 @@
-import ComponentInterface from '@/utils/component-interface';
 import { log } from '@/utils/log';
 import { Avatar, Menu, MenuProps, Flex, theme } from 'antd';
 import { MailOutlined, AppstoreOutlined, SettingOutlined, CheckCircleTwoTone, HomeTwoTone } from '@ant-design/icons';
@@ -24,21 +23,17 @@ import {
   menuKeySystemLocaleEnUS,
 } from '@/utils/global-const';
 import { Link } from 'react-router-dom';
+import { getPrefix } from '@/utils/global-tools';
 
 export interface AppHeaderProps {
   mode: 'horizontal' | 'vertical' | 'inline';
 }
 
-export const appHeader: ComponentInterface = {
-  cname: {
-    name: 'app-header',
-    prefix: 'mat',
-  },
-};
-
 const styleAvatar: React.CSSProperties = {
   backgroundColor: '#1677ff',
 };
+
+const cname = getPrefix('mat', 'AppHeader');
 
 const useAppHeader = (props: AppHeaderProps, matConfigContext: MatConfig) => {
   const { light, locale, setLight, setLocale } = matConfigContext;
@@ -147,7 +142,7 @@ const useAppHeader = (props: AppHeaderProps, matConfigContext: MatConfig) => {
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     const key = e.key;
-    log(appHeader.cname, 'menu-click', key);
+    log(cname, 'menu-click', key);
     handleMenuClickByLink(key);
     handleMenuClickTheme(key);
     handleMenuClickLocale(key);

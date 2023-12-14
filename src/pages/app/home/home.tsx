@@ -1,52 +1,78 @@
 import React from 'react';
+import type { Dayjs } from 'dayjs';
+import type { BadgeProps, CalendarProps } from 'antd';
+import { Badge, Calendar } from 'antd';
 
-import { Button, Calendar, Card, Col, DatePicker, Divider, Flex, Pagination, Row, Typography } from 'antd';
-const cardStyle: React.CSSProperties = {
-  width: 620,
+const getListData = (value: Dayjs) => {
+  let listData;
+  switch (value.date()) {
+    case 8:
+      listData = [
+        { type: 'warning', content: 'This is warning event.' },
+        { type: 'success', content: 'This is usual event.' },
+      ];
+      break;
+    case 10:
+      listData = [
+        { type: 'warning', content: 'This is warning event.' },
+        { type: 'success', content: 'This is usual event.' },
+        { type: 'error', content: 'This is error event.' },
+      ];
+      break;
+    case 15:
+      listData = [
+        { type: 'warning', content: 'This is warning event' },
+        { type: 'success', content: 'This is very long usual event......' },
+        { type: 'error', content: 'This is error event 1.' },
+        { type: 'error', content: 'This is error event 2.' },
+        { type: 'error', content: 'This is error event 3.' },
+        { type: 'error', content: 'This is error event 4.' },
+      ];
+      break;
+    default:
+  }
+  return listData || [];
 };
 
-const imgStyle: React.CSSProperties = {
-  display: 'block',
-  width: 273,
+const getMonthData = (value: Dayjs) => {
+  if (value.month() === 8) {
+    return 1394;
+  }
 };
-
-const CardBox: React.FC<{ children: React.ReactNode; height: number }> = (props) => (
-  <Card hoverable style={{ ...cardStyle, height: props.height }} bodyStyle={{ padding: 0, overflow: 'hidden' }}>
-    {props.children}
-  </Card>
-);
 
 export type HomeProps = {};
 
 const Home: React.FC<HomeProps> = () => {
-  return (
-    <>
-      <Row>
-        <Col span={8}>
-          <Card hoverable style={cardStyle} bodyStyle={{ padding: 0, overflow: 'hidden' }}>
-            <Flex justify="space-between">
-              <img
-                alt="avatar"
-                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                style={imgStyle}
-              />
-              <Flex vertical align="flex-end" justify="space-between" style={{ padding: 32 }}>
-                <Typography.Title level={3}>
-                  “antd is an enterprise-class UI design language and React UI library.”
-                </Typography.Title>
-                <Button type="primary">Get Start</Button>
-              </Flex>
-            </Flex>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <CardBox height={330}>
-            <Calendar fullscreen={false} />
-          </CardBox>
-        </Col>
-      </Row>
-    </>
-  );
+  const monthCellRender = (value: Dayjs) => {
+    const num = getMonthData(value);
+    return num ? (
+      <div className="notes-month">
+        <section>{num}</section>
+        <span>Backlog number</span>
+      </div>
+    ) : null;
+  };
+
+  const dateCellRender = (value: Dayjs) => {
+    const listData = getListData(value);
+    return (
+      <ul className="events">
+        {listData.map((item) => (
+          <li key={item.content}>
+            <Badge status={item.type as BadgeProps['status']} text={item.content} />
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const cellRender: CalendarProps<Dayjs>['cellRender'] = (current, info) => {
+    if (info.type === 'date') return dateCellRender(current);
+    if (info.type === 'month') return monthCellRender(current);
+    return info.originNode;
+  };
+
+  return <Calendar cellRender={cellRender} />;
 };
 
 export default Home;
