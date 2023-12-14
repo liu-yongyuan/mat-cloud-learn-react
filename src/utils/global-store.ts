@@ -3,17 +3,12 @@ import { prefixLocale, prefixLight, boolTrueNumber } from './global-const';
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
 import { log } from './log';
-import { ComponentName } from './component-interface';
+import { getPrefix } from './global-tools';
 
-export const globalStoreCName: ComponentName = {
-  // 填充组件名称即可
-  name: 'globalStore',
-  // 无特殊需求不改
-  prefix: 'mat-utils',
-};
+const cname = getPrefix('mat', 'globalStore');
 
 export const storeLocale = (locale: Locale, setLocale: Function) => {
-  log(globalStoreCName, locale.locale);
+  log(cname, locale.locale);
   localStorage.setItem(prefixLocale, locale.locale);
   setLocale(locale);
 };
@@ -30,7 +25,7 @@ export const getSotreLocale = () => {
 };
 
 export const storeLight = (light: number, setLight: Function) => {
-  log(globalStoreCName, light);
+  log(cname, light);
   localStorage.setItem(prefixLight, `${light}`);
   setLight(light);
 };
